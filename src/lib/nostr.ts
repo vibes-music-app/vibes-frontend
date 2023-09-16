@@ -18,13 +18,13 @@ export const genKeys = () => {
     return { sk, pk };
 };
 
-const genEvent = (ipfs_url: string, user: string, private_key: string) => {
+const genericEvent = (kind: int, content: string, public_key: string, private_key: string, tags: [string]) => {
     const unsignedEvent: UnsignedEvent<number> = {
-        kind: 1,
-        pubkey: user,
+        kind: kind,
+        pubkey: public_key,
         created_at: Math.floor(Date.now() / 1000),
-        tags: [],
-        content: ipfs_url,
+        tags: tags,
+        content: content,
     };
     
     const id = getEventHash(unsignedEvent);
@@ -45,6 +45,22 @@ const genEvent = (ipfs_url: string, user: string, private_key: string) => {
         return false;
     }
 };
+
+const postEvent = (ipfs_link: string, public_key: string, private_key: string) => {
+    return genericEvent(1, ipfs_link, public_key, private_key, [])
+}
+
+const collectionEvent = (ipfs_link: string, public_key: string, private_key: string) => {
+    return genericEvent(2, ipfs_link, public_key, private_key, [])
+}
+
+const likeEvent = (post_id: string, public_key: string, private_key: string) => {
+    return genericEvent(3, null, public_key, private_key, [["post",post_id]])
+}
+
+const commentEvent = (comment: string, post_id: string, public_key: string, private_key: string) => {
+    return genericEvent(3, comment, public_key, private_key, [["post",post_id]])
+}
 
 export const initRelay = async (url: string) => {
     // const relay = relayInit('ws://10.33.141.120/relay')
