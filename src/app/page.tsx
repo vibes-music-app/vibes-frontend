@@ -1,8 +1,9 @@
 import CollectionsPanel from "./components/CollectionsPanel";
 import ContentPanel from "./components/ContentPanel";
 
-//import 'websocket-polyfill'
 import {
+    getPosts,
+    postEvent,
     initRelay,
     publishEvent,
     subscribe,
@@ -16,15 +17,15 @@ export default async function Home() {
 
     // -- This method returns all posts matching the filter in a list --
     //const posts = await relay.list([{ kinds: [0,1] }])
-    //posts.forEach(post => {
-    //    console.log(post)
-    //})
+    const posts = await getPosts(relay);
 
-    // -- This method calls a function on each event returned --
-    subscribe(relay);
+    posts.forEach(post => {
+        console.log(post)
+    })
 
-    const { sk, pk } = genKeys();
-    //publishEvent(relay, "Another event", pk, sk)
+    const { sk, pk } = genKeys()
+    let newPost = postEvent("another (not) ipfs link", pk, sk)
+    //publishEvent(relay, newPost)
 
     return (
         <main className="flex ">
