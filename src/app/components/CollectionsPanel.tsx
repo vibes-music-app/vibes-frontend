@@ -6,7 +6,7 @@ export default async function CollectionsPanel() {
     const collectionNames = await getAllCollectionNames();
 
     return (
-        <div>
+        <div className="min-w-[300px]">
             <div className="bg-black flex gap-3 px-3 py-2 ">
                 <h2 className="text-white text-2xl font-bold">Collections </h2>
                 <div className="flex items-center justify-center">
