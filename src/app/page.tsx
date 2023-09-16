@@ -5,7 +5,7 @@ export default async function Home() {
     return (
         <main className="flex ">
             <CollectionsPanel />
-            {/*<MainContent />*/}
+
             <ContentPanel />
         </main>
     );

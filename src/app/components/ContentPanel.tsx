@@ -6,14 +6,28 @@ export default function ContentPanel() {
 
     return (
         <div>
-            {content.map((content) => {
+            {content.map((content, index) => {
+                let backgroundColour = "";
+
+                if (index % 3 === 0) {
+                    backgroundColour = "bg-red";
+                } else if (index % 3 === 1) {
+                    backgroundColour = "bg-yellow";
+                } else {
+                    backgroundColour = "bg-blue";
+                }
+
                 return (
                     <div>
-                        <div>{content.title}</div>
+                        <div
+                            className={`title text-white px-3 text-2xl py-2 mb-2 ${backgroundColour}`}
+                        >
+                            {content.title}
+                        </div>
                         {content.data.map((data) => {
                             return (
-                                <div>
-                                    <div>
+                                <div className="px-3 py-2">
+                                    <div className="">
                                         <Image
                                             src={data.imgSrc}
                                             alt="random image"
@@ -21,6 +35,7 @@ export default function ContentPanel() {
                                             width="250"
                                         />
                                     </div>
+                                    <div>{data.description}</div>
                                 </div>
                             );
                         })}
