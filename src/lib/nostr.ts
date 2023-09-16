@@ -18,7 +18,7 @@ export const genKeys = () => {
     return { sk, pk };
 };
 
-const genericEvent = (kind: int, content: string, public_key: string, private_key: string, tags: [string]) => {
+const genericEvent = (kind: number, content: string, public_key: string, private_key: string, tags: [string]) => {
     const unsignedEvent: UnsignedEvent<number> = {
         kind: kind,
         pubkey: public_key,
