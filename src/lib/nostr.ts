@@ -6,11 +6,14 @@ import {
     getSignature,
     getEventHash,
     finishEvent,
+    VerifiedEvent,
     UnsignedEvent,
     relayInit,
     Relay,
 } from "nostr-tools";
 
+// --- Key Management ---
+//
 export const genKeys = () => {
     let sk = generatePrivateKey();
     let pk = getPublicKey(sk);
@@ -18,6 +21,8 @@ export const genKeys = () => {
     return { sk, pk };
 };
 
+// --- Event Creation ---
+//
 const genericEvent = (kind: int, content: string, public_key: string, private_key: string, tags: [string]) => {
     const unsignedEvent: UnsignedEvent<number> = {
         kind: kind,
@@ -46,21 +51,27 @@ const genericEvent = (kind: int, content: string, public_key: string, private_ke
     }
 };
 
-const postEvent = (ipfs_link: string, public_key: string, private_key: string) => {
+export const postEvent = (ipfs_link: string, public_key: string, private_key: string) => {
     return genericEvent(1, ipfs_link, public_key, private_key, [])
 }
 
-const collectionEvent = (ipfs_link: string, public_key: string, private_key: string) => {
+export const collectionEvent = (ipfs_link: string, public_key: string, private_key: string) => {
     return genericEvent(2, ipfs_link, public_key, private_key, [])
 }
 
-const likeEvent = (post_id: string, public_key: string, private_key: string) => {
+export const likeEvent = (post_id: string, public_key: string, private_key: string) => {
     return genericEvent(3, null, public_key, private_key, [["post",post_id]])
 }
 
-const commentEvent = (comment: string, post_id: string, public_key: string, private_key: string) => {
-    return genericEvent(3, comment, public_key, private_key, [["post",post_id]])
+export const commentEvent = (comment: string, post_id: string, public_key: string, private_key: string, replying_to = "" ) => {
+    if (replying_to) {
+        return genericEvent(4, comment, public_key, private_key, [["post",post_id], ["replying_to", replying_to]])
+    } else {
+        return genericEvent(4, comment, public_key, private_key, [["post",post_id]])
+    }
 }
+
+// --- Relay / Event Management ---
 
 export const initRelay = async (url: string) => {
     // const relay = relayInit('ws://10.33.141.120/relay')
@@ -79,6 +90,28 @@ export const initRelay = async (url: string) => {
     return relay
 };
 
+const getEvents = async (relay: Relay, filters: [any]) => {
+    const events = await relay.list(filters)
+    return events
+}
+
+// Get posts, optionally from a specific author
+export const getPosts = async (relay: Relay, author = "") => {
+    if (author) {
+        const posts = await getEvents(relay, [{ kinds: [1] }])
+        return posts
+    } else {
+        const posts = await getEvents(relay, [{ kinds: [1], authors: [author] }])
+        return posts
+    }
+}
+
+export const getCollections = async (relay: Relay) => {
+    const posts = await getEvents(relay, [{ kinds: [2] }])
+    return posts
+}
+
+// DEPRECATED
 export const subscribe = async (relay: Relay) => {
     // Example subscription to a relay
 
@@ -110,12 +143,9 @@ export const subscribeToAuthor = async (relay: Relay, author: string) => {
 
 export const publishEvent = async (
     relay: Relay,
-    ipfs_url: string,
-    demo_public_key: string,
-    demo_private_key: string
+    event: VerifiedEvent
 ) => {
-    let newEvent = genEvent(ipfs_url, demo_public_key, demo_private_key);
-    if (newEvent) {
-        await relay.publish(newEvent);
+    if (event) {
+        await relay.publish(event);
     }
 };
