@@ -1,3 +1,9 @@
+import CollectionsPanel from "./components/CollectionsPanel";
+
 export default async function Home() {
-    return <main className=""></main>;
+    return (
+        <main className="flex ">
+            <CollectionsPanel />
+        </main>
+    );
 }

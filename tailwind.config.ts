@@ -18,6 +18,8 @@ const config: Config = {
             yellow: "#F8A147",
             blue: "#028A9B",
             red: "#DE5A5A",
+            white: "#FFFFFF",
+            black: "#000000",
         },
     },
     plugins: [],
