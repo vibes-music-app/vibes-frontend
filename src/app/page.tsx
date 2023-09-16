@@ -12,6 +12,7 @@ import {
 } from "../lib/nostr";
 
 import Recommendations from "./components/Recommendations";
+import MusicPlayer from "./components/MusicPlayer";
 export default async function Home() {
     const relay = await initRelay("ws://10.33.141.120/relay/");
     console.log("We have these posts already!");
@@ -20,12 +21,12 @@ export default async function Home() {
     //const posts = await relay.list([{ kinds: [0,1] }])
     const posts = await getPosts(relay, "", 1);
 
-    posts.forEach(post => {
-        console.log(post)
-    })
+    posts.forEach((post) => {
+        console.log(post);
+    });
 
-    const { sk, pk } = genKeys()
-    let newPost = postEvent("another (not) ipfs link", pk, sk)
+    const { sk, pk } = genKeys();
+    let newPost = postEvent("another (not) ipfs link", pk, sk);
     //publishEvent(relay, newPost)
 
     return (
@@ -33,6 +34,7 @@ export default async function Home() {
             <CollectionsPanel />
             <Recommendations />
             <ContentPanel />
+            <MusicPlayer />
         </main>
     );
 }
