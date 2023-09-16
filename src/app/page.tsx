@@ -1,4 +1,39 @@
 import Image from 'next/image'
+import { genKeys, genEvent } from './nostr'
+import { relayInit } from 'nostr-tools'
+
+// const relay = relayInit('ws://10.33.141.120/relay')
+const relay = relayInit('ws://localhost:8081')
+const { sk, pk } = genKeys()
+const demo_public_key = sk
+const demo_private_key = pk
+
+relay.on('connect', () => {
+  console.log(`connected to ${relay.url}`)
+})
+relay.on('error', () => {
+  console.log(`failed to connect to ${relay.url}`)
+})
+
+await relay.connect()
+
+// Example subscription to an author and publishing of an event
+let sub = relay.sub([
+  {
+    kinds: [1],
+    authors: [demo_public_key],
+  },
+])
+
+sub.on('event', event => {
+  console.log('got this eventaroo', event)
+})
+
+let newEvent = genEvent('hello!', demo_public_key, demo_private_key)
+console.log(newEvent)
+if (newEvent !== -1) {
+  await relay.publish(newEvent)
+}
 
 export default function Home() {
   return (
