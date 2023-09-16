@@ -10,6 +10,7 @@ import {
     subscribeToAuthor,
     genKeys,
 } from "../lib/nostr";
+
 import Recommendations from "./components/Recommendations";
 export default async function Home() {
     const relay = await initRelay("ws://10.33.141.120/relay/");
@@ -17,7 +18,7 @@ export default async function Home() {
 
     // -- This method returns all posts matching the filter in a list --
     //const posts = await relay.list([{ kinds: [0,1] }])
-    const posts = await getPosts(relay);
+    const posts = await getPosts(relay, "", 1);
 
     posts.forEach(post => {
         console.log(post)

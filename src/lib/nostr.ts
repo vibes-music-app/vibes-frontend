@@ -96,14 +96,18 @@ const getEvents = async (relay: Relay, filters: [any]) => {
 }
 
 // Get posts, optionally from a specific author
-export const getPosts = async (relay: Relay, author = "") => {
+export const getPosts = async (relay: Relay, author = "", limit = 0) => {
+    let filter = { kinds: [1] }
     if (author) {
-        const posts = await getEvents(relay, [{ kinds: [1] }])
-        return posts
-    } else {
-        const posts = await getEvents(relay, [{ kinds: [1], authors: [author] }])
-        return posts
+        filter['authors'] = [author]
     }
+
+    if (limit) {
+        filter['limit'] = limit
+    }
+
+    const posts = await getEvents(relay, [filter])
+    return posts
 }
 
 export const getCollections = async (relay: Relay) => {
