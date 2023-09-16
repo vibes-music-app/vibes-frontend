@@ -26,7 +26,7 @@ const genEvent = (ipfs_url: string, user: string, private_key: string) => {
         tags: [],
         content: ipfs_url,
     };
-
+    
     const id = getEventHash(unsignedEvent);
     const sig = getSignature(unsignedEvent, private_key);
 
