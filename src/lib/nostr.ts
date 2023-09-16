@@ -10,6 +10,7 @@ import {
     UnsignedEvent,
     relayInit,
     Relay,
+    SimplePool
 } from "nostr-tools";
 
 import {
@@ -102,7 +103,21 @@ export const initRelay = async (url: string) => {
     return relay;
 };
 
-const getEvents = async (relay: Relay, filters: [any]) => {
+//--- Relay Pools ---
+
+export const initPool = async (relays: string[]) => {
+    const pool = await new SimplePool()
+
+    return pool
+}
+
+export const getPoolEvents = async (pool: SimplePool, relays: string[], filters: any[]) => {
+    const events = await pool.list(relays, filters);
+    return events;
+};
+
+
+const getEvents = async (relay: Relay, filters: any[]) => {
     const events = await relay.list(filters);
     return events;
 };
@@ -113,6 +128,7 @@ interface PostsFilter {
     limit?: number;
     since?: number;
 }
+
 // Get posts, optionally from a specific author
 export const getPosts = async (
     relay: Relay,
@@ -159,7 +175,6 @@ export const latestPosts = async (relay: Relay, latest = 10) => {
             break;
         }
 
-        console.log("have ", found, "posts, need", latest);
         posts = await getPosts(relay, "", latest, default_delta);
         default_delta *= 10; // Multiply by 10 each iteration
         found = posts.length;

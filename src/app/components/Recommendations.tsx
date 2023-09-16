@@ -1,9 +1,16 @@
 import { getLatestPosts, getRecommendedPosts } from "@/lib/recommendations";
 import Masonry from "./Masonry";
 
+import {
+    initRelay,
+    latestPosts,
+    getPosts
+} from "@/lib/nostr";
+
 export default async function Recommendations() {
-    const latestPosts = await getLatestPosts();
-    const recommendedPosts = await getRecommendedPosts();
+    const relay = await initRelay('ws://10.33.141.120/relay/');
+    const newestPosts = await latestPosts(relay, "", 5);
+    const recommendedPosts = await getPosts(relay, 5);
 
     return (
         <div className="relative flex-1">
@@ -16,7 +23,7 @@ export default async function Recommendations() {
                 <div className="bg-black absolute my-4 h-[calc(100%-80px)] w-0.5"></div>
                 <div>
                     <h2 className="mb-4 text-2xl">Fresh content.</h2>
-                    <Masonry posts={latestPosts} />
+                    <Masonry posts={newestPosts} />
                 </div>
             </div>
         </div>
