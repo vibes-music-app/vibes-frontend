@@ -12,6 +12,9 @@ import {
     Relay,
 } from "nostr-tools";
 
+import {
+
+} from "nostr-tools";
 // --- Key Management ---
 //
 export const genKeys = () => {
@@ -55,48 +58,30 @@ const genericEvent = (
     }
 };
 
-export const postEvent = (
-    ipfs_link: string,
-    public_key: string,
-    private_key: string
-) => {
-    return genericEvent(1, ipfs_link, public_key, private_key, []);
+enum Kind {
+    "post" = 1,
+    "album" = 2,
+    "like" = 3,
+    "comment" = 4,
+    "follow" = 5,
 };
 
-export const collectionEvent = (
-    ipfs_link: string,
-    public_key: string,
-    private_key: string
-) => {
-    return genericEvent(2, ipfs_link, public_key, private_key, []);
-};
 
-export const likeEvent = (
-    post_id: string,
-    public_key: string,
-    private_key: string
-) => {
-    return genericEvent(3, "", public_key, private_key, [["post", post_id]]);
-};
+export const postEvent = (ipfs_link: string, public_key: string, private_key: string) => {
+    return genericEvent(Kind.post, ipfs_link, public_key, private_key, [])
+}
 
-export const commentEvent = (
-    comment: string,
-    post_id: string,
-    public_key: string,
-    private_key: string,
-    replying_to = ""
-) => {
-    if (replying_to) {
-        return genericEvent(4, comment, public_key, private_key, [
-            ["post", post_id],
-            ["replying_to", replying_to],
-        ]);
-    } else {
-        return genericEvent(4, comment, public_key, private_key, [
-            ["post", post_id],
-        ]);
-    }
-};
+export const collectionEvent = (ipfs_link: string, public_key: string, private_key: string) => {
+    return genericEvent(Kind.album, ipfs_link, public_key, private_key, [])
+}
+
+export const likeEvent = (post_id: string, public_key: string, private_key: string) => {
+    return genericEvent(Kind.like, "", public_key, private_key, [["post",post_id]])
+}
+
+export const commentEvent = (comment: string, post_id: string, public_key: string, private_key: string, replying_to = "" ) => {
+    return genericEvent(Kind.comment, comment, public_key, private_key, [["post",post_id], ["replying_to", replying_to]]);
+} 
 
 // --- Relay / Event Management ---
 
