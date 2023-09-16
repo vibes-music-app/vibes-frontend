@@ -55,7 +55,7 @@ const genericEvent = (
     }
 };
 
-const postEvent = (
+export const postEvent = (
     ipfs_link: string,
     public_key: string,
     private_key: string
@@ -76,7 +76,7 @@ export const likeEvent = (
     public_key: string,
     private_key: string
 ) => {
-    return genericEvent(3, null, public_key, private_key, [["post", post_id]]);
+    return genericEvent(3, "", public_key, private_key, [["post", post_id]]);
 };
 
 export const commentEvent = (
