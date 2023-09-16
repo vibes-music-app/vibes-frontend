@@ -4,10 +4,11 @@ import { useEffect, useRef, useState } from "react";
 
 export default function MusicPlayer() {
     const [currentTimeInSeconds, setCurrentTimeInSeconds] = useState(0);
-    const [totalTimeInSeconds, setTotalTimeInSeconds] = useState(0);
+    const totalTimeInSeconds = useRef(0);
     const [isPlaying, setIsPlaying] = useState(false);
     const audio = useRef<HTMLAudioElement>();
     const progressBarRef = useRef<HTMLDivElement>(null);
+    const outerProgressBarRef = useRef<HTMLDivElement>(null);
     const timeToString = (time: number) => {
         const minutes = Math.floor(time / 60);
         const seconds = Math.floor(time % 60);
@@ -20,7 +21,8 @@ export default function MusicPlayer() {
     useEffect(() => {
         audio.current = new Audio("/thinking_out_loud.mp3");
         audio.current.addEventListener("loadedmetadata", () => {
-            setTotalTimeInSeconds(audio.current?.duration || 0);
+            console.log({ duration: audio.current?.duration });
+            totalTimeInSeconds.current = audio.current?.duration || 0;
         });
 
         audio.current.addEventListener("timeupdate", () => {
@@ -37,7 +39,7 @@ export default function MusicPlayer() {
     const updateProgressBar = (time: number) => {
         if (!progressBarRef.current) return;
 
-        const progressPercentage = (time / totalTimeInSeconds) * 100;
+        const progressPercentage = (time / totalTimeInSeconds.current) * 100;
 
         progressBarRef.current.style.width = `${progressPercentage}%`;
     };
@@ -59,6 +61,34 @@ export default function MusicPlayer() {
     const handleNextTrackButtonClick = () => {
         // TODO
         console.log("next track");
+    };
+
+    const setProgressBarPosition = (e: MouseEvent) => {
+        if (!outerProgressBarRef.current || !audio.current) return;
+        const progressBarWidth = outerProgressBarRef.current.clientWidth;
+        const rect = outerProgressBarRef.current.getBoundingClientRect();
+
+        const clickPosition = e.screenX - rect.left;
+        console.log({
+            leftOffset: outerProgressBarRef.current.offsetLeft,
+            clickPosition,
+            progressBarWidth,
+        });
+        const percentage = clickPosition / progressBarWidth;
+        const time = percentage * totalTimeInSeconds.current;
+
+        audio.current.currentTime = time;
+    };
+
+    const handleProgressBarMouseDown = (e: React.MouseEvent) => {
+        if (!outerProgressBarRef.current || !audio.current) return;
+
+        window.addEventListener("mousemove", setProgressBarPosition);
+        window.addEventListener("mouseup", () => {
+            window.removeEventListener("mousemove", setProgressBarPosition);
+        });
+
+        setProgressBarPosition(e.nativeEvent);
     };
 
     return (
@@ -102,7 +132,11 @@ export default function MusicPlayer() {
                 <div className="min-w-[55px] text-end">
                     {timeToString(currentTimeInSeconds)}
                 </div>
-                <div className="relative h-2 w-[500px]">
+                <div
+                    className="relative h-2 w-[500px] cursor-pointer"
+                    onMouseDown={handleProgressBarMouseDown}
+                    ref={outerProgressBarRef}
+                >
                     <div className="bg-white h-full rounded-full"></div>
                     <div
                         className="absolute left-0 top-0 h-full rounded-full bg-yellow"
@@ -110,7 +144,7 @@ export default function MusicPlayer() {
                     ></div>
                 </div>
                 <div className="min-w-[55px]">
-                    {timeToString(totalTimeInSeconds)}
+                    {timeToString(totalTimeInSeconds.current)}
                 </div>
             </div>
         </div>
