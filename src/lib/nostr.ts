@@ -19,8 +19,6 @@ export const genKeys = () => {
 };
 
 const genEvent = (ipfs_url: string, user: string, private_key: string) => {
-    console.log("post_text", ipfs_url);
-    console.log("user", user);
     const unsignedEvent: UnsignedEvent<number> = {
         kind: 1,
         pubkey: user,
@@ -39,9 +37,7 @@ const genEvent = (ipfs_url: string, user: string, private_key: string) => {
     };
 
     let ok = validateEvent(signedEvent);
-    console.log("okay", ok);
     let veryOk = verifySignature(signedEvent);
-    console.log("veryok", veryOk);
 
     if (ok) {
         return finishEvent(signedEvent, private_key);
@@ -63,6 +59,22 @@ export const initRelay = async (url: string) => {
     });
 
     await relay.connect();
+
+    return relay
+};
+
+export const subscribe = async (relay: Relay) => {
+    // Example subscription to a relay
+
+    let sub = relay.sub([
+        {
+            kinds: [1],
+        },
+    ]);
+
+    sub.on("event", (event) => {
+        console.log("new relay event!", event);
+    });
 };
 
 export const subscribeToAuthor = async (relay: Relay, author: string) => {
@@ -87,7 +99,6 @@ export const publishEvent = async (
     demo_private_key: string
 ) => {
     let newEvent = genEvent(ipfs_url, demo_public_key, demo_private_key);
-    console.log(newEvent);
     if (newEvent) {
         await relay.publish(newEvent);
     }
