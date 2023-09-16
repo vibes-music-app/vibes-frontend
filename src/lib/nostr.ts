@@ -123,23 +123,32 @@ const getEvents = async (relay: Relay, filters: [any]) => {
 };
 
 interface PostsFilter {
-    kinds: string[];
+    kinds: number[];
     author?: string[];
     limit?: number;
+    since?: number;
 }
 // Get posts, optionally from a specific author
 export const getPosts = async (
     relay: Relay,
-    author: string = "",
-    limit = 0
+    author = "",
+    limit = 0,
+    delta = 0
 ) => {
-    let filter: PostsFilter = { kinds: ["song"] };
+    let filter: PostsFilter = { kinds: [1] };
     if (author) {
         filter["author"] = [author];
     }
 
     if (limit) {
         filter["limit"] = limit;
+    }
+
+    // delta is a measure of how far back to pull posts (in seconds)
+    if (delta) {
+        delta = delta * 1000;
+        const now = new Date();
+        filter["since"] = Math.floor(now.getTime() / 1000) - delta;
     }
 
     const posts = await getEvents(relay, [filter]);
@@ -151,34 +160,32 @@ export const getCollections = async (relay: Relay) => {
     return posts;
 };
 
-// DEPRECATED
-export const subscribe = async (relay: Relay) => {
-    // Example subscription to a relay
+export const latestPosts = async (relay: Relay, latest = 10) => {
+    // This is a block for getting the n latest posts (more or less)
+    let found = 0;
+    let posts: any[] = [];
+    let default_delta = 60 * 60; // Start with 1 hour
 
-    let sub = relay.sub([
-        {
-            kinds: [1],
-        },
-    ]);
+    while (found < latest) {
+        // This is a base case. If we have found some results and the
+        // latest iteration did not find more, we return what we have.
 
-    sub.on("event", (event) => {
-        console.log("new relay event!", event);
-    });
+        if (found && posts.length == found) {
+            break;
+        }
+
+        console.log("have ", found, "posts, need", latest);
+        posts = await getPosts(relay, "", latest, default_delta);
+        default_delta *= 10; // Multiply by 10 each iteration
+        found = posts.length;
+    }
+
+    return posts;
 };
 
-export const subscribeToAuthor = async (relay: Relay, author: string) => {
-    // Example subscription to an author and publishing of an event
-
-    let sub = relay.sub([
-        {
-            kinds: [1],
-            authors: [author],
-        },
-    ]);
-
-    sub.on("event", (event) => {
-        console.log("got this eventaroo", event);
-    });
+export const getEvent = async (relay: Relay, id: string) => {
+    const event = await getEvents(relay, [{ ids: [id] }]);
+    return event;
 };
 
 export const publishEvent = async (
