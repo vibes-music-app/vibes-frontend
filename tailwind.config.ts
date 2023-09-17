@@ -22,15 +22,15 @@ const config: Config = {
             black: "#000000",
         },
         animation: {
-            "expand-popup": "expand-popup 0.2s ease-out",
+            "expand-popup": "expand-popup 0.2s ease",
         },
         keyframes: {
             "expand-popup": {
                 "0%": {
                     scale: "1",
                 },
-                "70%": {
-                    scale: "1.1",
+                "50%": {
+                    scale: "1.05",
                 },
                 "100%": {
                     scale: "1",

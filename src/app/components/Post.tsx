@@ -4,6 +4,7 @@ import Modal from "./Modal";
 import Image from "next/image";
 import { Event } from "nostr-tools";
 import { Kind } from "@/lib/nostr";
+import CommentBlock from "./CommentBlock";
 
 export default function Post({
     data,
@@ -37,6 +38,28 @@ export default function Post({
 
     const randomImgHash = Math.floor(Math.random() * 1000000);
     const { kind } = data;
+
+    const comments = Array.from({ length: 8 }, () => ({
+        name: "John Doe",
+        comment:
+            "This is a great song! I really relate to the message behind it.",
+        timestamp: "12:01pm",
+        profilePic: "/profile_photo.png",
+        replies: [
+            {
+                name: "Jane Doe",
+                comment: "I agree! I love this song so much.",
+                timestamp: "12:02pm",
+                profilePic: "/profile_photo.png",
+            },
+            {
+                name: "Jane Doe",
+                comment: "I agree! I love this song so much.",
+                timestamp: "12:02pm",
+                profilePic: "/profile_photo.png",
+            },
+        ],
+    }));
 
     return (
         <>
@@ -123,7 +146,15 @@ export default function Post({
                         <h2 className="px-3 py-2 text-2xl font-bold">
                             Comments
                         </h2>
-                        <div></div>
+                        <div className="flex flex-col gap-2">
+                            {comments.map((commentDetails) => {
+                                return (
+                                    <CommentBlock
+                                        commentDetails={commentDetails}
+                                    />
+                                );
+                            })}
+                        </div>
                     </div>
                 </>
             </Modal>
