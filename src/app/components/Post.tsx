@@ -5,7 +5,7 @@ import Image from "next/image";
 import { Event } from "nostr-tools";
 import { Kind } from "@/lib/nostr";
 
-export default async function Post({
+export default function Post({
     data,
     offset,
     index,

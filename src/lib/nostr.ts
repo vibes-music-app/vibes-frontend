@@ -53,7 +53,7 @@ const genericEvent = (
     if (ok) {
         return finishEvent(signedEvent, private_key);
     } else {
-        return false;
+        return null;
     }
 };
 
