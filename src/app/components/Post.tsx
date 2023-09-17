@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import Modal from "./Modal";
 import Image from "next/image";
 import { Event } from "nostr-tools";
@@ -10,10 +10,16 @@ export default function Post({
     data,
     offset,
     index,
+    audio,
+    isPlaying,
+    setIsPlaying,
 }: {
     data: NostrPacket | Event;
     offset?: boolean;
     index: number;
+    audio: React.MutableRefObject<HTMLAudioElement>;
+    isPlaying: boolean;
+    setIsPlaying: (isPlaying: boolean) => void;
 }) {
     const [isOpen, setIsOpen] = useState(false);
 
@@ -68,8 +74,38 @@ export default function Post({
                 onClick={() => setIsOpen(true)}
             >
                 <div
-                    className={`${border} h-full w-full overflow-hidden rounded-md border-2 bg-white pb-2`}
+                    className={`${border} relative h-full w-full overflow-hidden rounded-md border-2 bg-white pb-2`}
                 >
+                    {Kind.post == kind && (
+                        <div
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                const currentSrc = new URL(audio.current.src)
+                                    .pathname;
+                                const newSrc = "/summer_of_69.mp3";
+
+                                if (isPlaying && currentSrc == newSrc) {
+                                    audio.current.pause();
+                                    setIsPlaying(false);
+                                } else if (!isPlaying && currentSrc == newSrc) {
+                                    audio.current.play();
+                                    setIsPlaying(true);
+                                } else if (currentSrc != newSrc) {
+                                    audio.current.src = newSrc;
+                                    audio.current.play();
+                                    setIsPlaying(true);
+                                }
+                            }}
+                            className="absolute left-0 top-0 z-10 flex aspect-square w-full items-center justify-center overflow-hidden opacity-0 transition-all hover:bg-[rgba(0,0,0,30%)] hover:opacity-100"
+                        >
+                            <Image
+                                src="/play.png"
+                                alt="play"
+                                height={50}
+                                width={50}
+                            />
+                        </div>
+                    )}
                     <div className="relative aspect-square w-full overflow-hidden">
                         <Image
                             src={`https://source.unsplash.com/random/?album_cover&id=${randomImgHash}`}
@@ -79,7 +115,7 @@ export default function Post({
                         />
                     </div>
                     <div className="px-3 pt-2 font-bold">
-                        {Kind.album == kind ? "Album" : "Song"}
+                        {Kind.album == kind ? "Divide" : "HUMBLE."}
                     </div>
                     <div className="px-3 pb-2 italic leading-none">
                         {Kind.album == kind ? "Ed Sheeran" : "Kendrick Lamar"}
@@ -146,7 +182,7 @@ export default function Post({
                         <h2 className="px-3 py-2 text-2xl font-bold">
                             Comments
                         </h2>
-                        <div className="flex flex-col gap-2">
+                        <div className="flex max-h-[calc(100%-80px)] flex-col gap-2 overflow-auto">
                             {comments.map((commentDetails) => {
                                 return (
                                     <CommentBlock

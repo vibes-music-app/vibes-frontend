@@ -12,11 +12,9 @@ import {
 } from "../lib/nostr";
 
 import { uploadSong } from "../lib/ipfs";
-
-import Recommendations from "./components/Recommendations";
-import MusicPlayer from "./components/MusicPlayer";
 import { getAllCollectionNames } from "@/lib/collections";
 import { getLatestPosts, getRecommendedPosts } from "@/lib/recommendations";
+import ClientWrapper from "./components/ClientWrapper";
 
 export default async function Home() {
     const collectionNames = await getAllCollectionNames();
@@ -28,13 +26,11 @@ export default async function Home() {
 
     return (
         <main className="flex">
-            <CollectionsPanel collectionNames={collectionNames} />
-            <Recommendations
+            <ClientWrapper
+                collectionNames={collectionNames}
                 recommendedPosts={recommendedPosts}
                 newestPosts={newestPosts}
             />
-            <ContentPanel />
-            <MusicPlayer />
         </main>
     );
 }

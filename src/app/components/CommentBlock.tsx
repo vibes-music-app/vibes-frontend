@@ -43,7 +43,7 @@ export default function CommentBlock({
                             <span>{reply.comment}</span>
                         </div>
                         <div
-                            className={`absolute -left-6 w-8 rounded border-b-4 border-l-4 border-black ${
+                            className={`border-grey absolute -left-6 w-8 rounded-xl rounded-r-none rounded-t-none border-b-4 border-l-4 ${
                                 index === 0
                                     ? "-top-8 h-12"
                                     : "-top-20 h-[calc(100%+40px)]"

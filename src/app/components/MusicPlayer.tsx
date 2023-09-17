@@ -2,11 +2,17 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
-export default function MusicPlayer() {
+export default function MusicPlayer({
+    isPlaying,
+    setIsPlaying,
+    audio,
+}: {
+    isPlaying: boolean;
+    setIsPlaying: (isPlaying: boolean) => void;
+    audio: React.MutableRefObject<HTMLAudioElement>;
+}) {
     const [currentTimeInSeconds, setCurrentTimeInSeconds] = useState(0);
     const totalTimeInSeconds = useRef(0);
-    const [isPlaying, setIsPlaying] = useState(false);
-    const audio = useRef<HTMLAudioElement>();
     const progressBarRef = useRef<HTMLDivElement>(null);
     const outerProgressBarRef = useRef<HTMLDivElement>(null);
     const timeToString = (time: number) => {
@@ -19,7 +25,7 @@ export default function MusicPlayer() {
     };
 
     useEffect(() => {
-        audio.current = new Audio("/thinking_out_loud.mp3");
+        if (!audio?.current) return;
         audio.current.addEventListener("loadedmetadata", () => {
             totalTimeInSeconds.current = audio.current?.duration || 0;
         });
@@ -50,6 +56,7 @@ export default function MusicPlayer() {
             audio.current?.play();
         }
         setIsPlaying(!isPlaying);
+        console.log({ isPlaying });
     };
 
     const handlePreviousTrackButtonClick = () => {
@@ -86,7 +93,7 @@ export default function MusicPlayer() {
     };
 
     return (
-        <div className="bg-black group fixed bottom-0 left-[50%] -translate-x-[50%] select-none rounded-t-3xl px-4 py-2">
+        <div className="group fixed bottom-0 left-[50%] -translate-x-[50%] select-none rounded-t-3xl bg-black px-4 py-2">
             <div className="flex items-center justify-center gap-4">
                 <button
                     onClick={handlePreviousTrackButtonClick}
@@ -102,6 +109,7 @@ export default function MusicPlayer() {
                 <button
                     onClick={handlePlayButtonClick}
                     className="relative h-8 w-8 transition-all active:scale-90 group-hover:h-12 group-hover:w-12"
+                    key={isPlaying + "update"}
                 >
                     {isPlaying ? (
                         <Image src="/pause_button.png" alt="pause/play" fill />
@@ -121,8 +129,8 @@ export default function MusicPlayer() {
                     />
                 </button>
             </div>
-            <div className="text-white flex items-center justify-center gap-6">
-                <div className="min-w-[55px] text-end font-secondary">
+            <div className="flex items-center justify-center gap-6 text-white">
+                <div className="font-secondary min-w-[55px] text-end">
                     {timeToString(currentTimeInSeconds)}
                 </div>
                 <div
@@ -130,13 +138,13 @@ export default function MusicPlayer() {
                     onMouseDown={handleProgressBarMouseDown}
                     ref={outerProgressBarRef}
                 >
-                    <div className="bg-white h-full rounded-full"></div>
+                    <div className="h-full rounded-full bg-white"></div>
                     <div
                         className="absolute left-0 top-0 h-full rounded-full bg-yellow"
                         ref={progressBarRef}
                     ></div>
                 </div>
-                <div className="min-w-[55px] font-secondary">
+                <div className="font-secondary min-w-[55px]">
                     {timeToString(totalTimeInSeconds.current)}
                 </div>
             </div>

@@ -20,6 +20,7 @@ const config: Config = {
             red: "#DE5A5A",
             white: "#FFFFFF",
             black: "#000000",
+            grey: "#9C9C9C",
         },
         animation: {
             "expand-popup": "expand-popup 0.2s ease",
