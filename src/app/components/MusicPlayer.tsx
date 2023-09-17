@@ -12,7 +12,7 @@ export default function MusicPlayer({
     audio: React.MutableRefObject<HTMLAudioElement>;
 }) {
     const [currentTimeInSeconds, setCurrentTimeInSeconds] = useState(0);
-    const totalTimeInSeconds = useRef(0);
+    const totalTimeInSeconds = useRef(250);
     const progressBarRef = useRef<HTMLDivElement>(null);
     const outerProgressBarRef = useRef<HTMLDivElement>(null);
     const timeToString = (time: number) => {
@@ -27,7 +27,7 @@ export default function MusicPlayer({
     useEffect(() => {
         if (!audio?.current) return;
         audio.current.addEventListener("loadedmetadata", () => {
-            totalTimeInSeconds.current = audio.current?.duration || 0;
+            totalTimeInSeconds.current = audio.current?.duration || 250;
         });
 
         audio.current.addEventListener("timeupdate", () => {

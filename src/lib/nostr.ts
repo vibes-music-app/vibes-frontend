@@ -13,7 +13,7 @@ import {
     SimplePool,
 } from "nostr-tools";
 
-export const RELAY_URL = 'ws://10.33.143.156:5000/';
+export const RELAY_URL = "ws://10.33.143.156:5000/";
 
 import {} from "nostr-tools";
 // --- Key Management ---
@@ -154,12 +154,7 @@ interface PostsFilter {
 }
 
 // Get posts, optionally from a specific author
-const _getPosts = async (
-    relay: Relay,
-    author = "",
-    limit = 0,
-    delta = 0
-) => {
+const _getPosts = async (relay: Relay, author = "", limit = 0, delta = 0) => {
     let filter: PostsFilter = { kinds: [1] };
     if (author) {
         filter["author"] = [author];
@@ -180,10 +175,10 @@ const _getPosts = async (
     return posts;
 };
 
-const getPosts = async () => {
+export const getPosts = async () => {
     let relay = await initRelay(RELAY_URL);
     return _getPosts(relay);
-}
+};
 
 export const getCollections = async (relay: Relay) => {
     const posts = await getEvents(relay, [{ kinds: [2] }]);
@@ -204,7 +199,7 @@ export const latestPosts = async (relay: Relay, latest = 10) => {
             break;
         }
 
-        posts = await getPosts(relay, "", latest, default_delta);
+        posts = await getPosts();
         default_delta *= 10; // Multiply by 10 each iteration
         found = posts.length;
     }

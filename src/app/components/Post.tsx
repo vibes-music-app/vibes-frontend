@@ -15,7 +15,7 @@ export default function Post({
     isPlaying,
     setIsPlaying,
 }: {
-    data: NostrPacket | Event;
+    data: NostrPacket | Event | any;
     offset?: boolean;
     index: number;
     audio: React.MutableRefObject<HTMLAudioElement>;
@@ -23,6 +23,8 @@ export default function Post({
     setIsPlaying: (isPlaying: boolean) => void;
 }) {
     const [isOpen, setIsOpen] = useState(false);
+
+    console.log({ data });
 
     let border = "";
 
@@ -105,6 +107,17 @@ export default function Post({
         })),
     ]);
 
+    const artists = [
+        "Ed Sheeran",
+        "Kendrick Lamar",
+        "Drake",
+        "Taylor Swift",
+        "Maneskin",
+        "Lil' Yachty",
+        "Ludwig van Beethoven",
+        "Michael Jackson",
+    ];
+
     return (
         <>
             <div
@@ -114,13 +127,13 @@ export default function Post({
                 <div
                     className={`${border} relative h-full w-full overflow-hidden rounded-md border-2 bg-white pb-2`}
                 >
-                    {Kind.post == kind && (
+                    {true && (
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
                                 const currentSrc = new URL(audio.current.src)
                                     .pathname;
-                                const newSrc = "/summer_of_69.mp3";
+                                const newSrc = data.audio;
 
                                 if (isPlaying && currentSrc == newSrc) {
                                     audio.current.pause();
@@ -145,18 +158,15 @@ export default function Post({
                         </div>
                     )}
                     <div className="relative aspect-square w-full overflow-hidden">
-                        <Image
-                            src={`https://source.unsplash.com/random/?album_cover&id=${randomImgHash}`}
+                        <img
+                            src={data.image}
                             alt="vinyl"
-                            layout="fill"
-                            objectFit="cover"
+                            className="aspect-square object-cover"
                         />
                     </div>
-                    <div className="px-3 pt-2 font-bold">
-                        {Kind.album == kind ? "Multiply" : "HUMBLE."}
-                    </div>
+                    <div className="px-3 pt-2 font-bold">{data.name}</div>
                     <div className="px-3 pb-2 italic leading-none">
-                        {Kind.album == kind ? "Ed Sheeran" : "Kendrick Lamar"}
+                        {artists[index % artists.length]}
                     </div>
                     <div className="font-secondary px-3 leading-4">
                         {Kind.album == kind
@@ -191,7 +201,7 @@ export default function Post({
                             </div>
                             <div className="ml-6 flex items-center">
                                 <div>
-                                    <h2 className="text-5xl">Multiply</h2>
+                                    <h2 className="text-5xl">{data.name}</h2>
                                     <div className="font-secondary text-2xl">
                                         Ed Sheeran
                                     </div>

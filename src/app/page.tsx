@@ -19,22 +19,25 @@ import ClientWrapper from "./components/ClientWrapper";
 
 export default async function Home() {
     const collectionNames = await getAllCollectionNames();
-    // const relay = await initRelay("ws://10.33.141.120/relay/");
     // const newestPosts = await latestPosts(relay, 5);
     // const recommendedPosts = (await getPosts(relay, "", 5)) as any;
     const recommendedPosts = await getRecommendedPosts();
     const newestPosts = await getLatestPosts();
 
-    console.log(
-        await getSong("QmSbyHfr7r5kazJVbzCdyKDopYrb2dJosBnQFRuE4uvH6B")
-    );
+    const posts = await getPosts();
+
+    let songs = [];
+
+    for (let i = 0; i < posts.length; i++) {
+        songs.push(await getSong(posts[i].content));
+    }
 
     return (
         <main className="flex">
             <ClientWrapper
                 collectionNames={collectionNames}
-                recommendedPosts={recommendedPosts}
-                newestPosts={newestPosts}
+                recommendedPosts={songs}
+                newestPosts={songs}
             />
         </main>
     );

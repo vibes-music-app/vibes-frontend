@@ -1,7 +1,7 @@
 import Post from "./Post";
 import { Event } from "nostr-tools";
 
-export default function Mosaic({
+export default function Masonry({
     posts,
     audio,
     isPlaying,

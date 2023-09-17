@@ -5,7 +5,7 @@ import CollectionsPanel from "./CollectionsPanel";
 import ContentPanel from "./ContentPanel";
 import MusicPlayer from "./MusicPlayer";
 
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export default function ClientWrapper({
     collectionNames,
@@ -18,6 +18,8 @@ export default function ClientWrapper({
 }) {
     const [isPlaying, setIsPlaying] = useState(false);
     const audio = useRef(new Audio("/thinking_out_loud.mp3"));
+
+    useEffect(() => {}, []);
 
     return (
         <>

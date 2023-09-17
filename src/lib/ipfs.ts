@@ -64,32 +64,36 @@ export const uploadSong = async (e: any) => {
     let ipfsHash: string = ((await res.json()) as IpfsResponse).Hash;
 
     let event = postEvent(ipfsHash, pk, sk);
-    console.log(event);
+
     let relay = await initRelay(RELAY_URL);
-    console.log(relay);
+
     if (!event) return;
     publishEvent(relay, event);
 };
 
 export const getFile = async (id: IpfsId) => {
-    let data = new FormData();
-    data.append("arg", id);
+    try {
+        let data = new FormData();
+        data.append("arg", id);
 
-    const res = await fetch(`${IPFS_URL}/get`, {
-        method: "POST",
-        body: data,
-    });
+        const res = await fetch(`${IPFS_URL}/get`, {
+            method: "POST",
+            body: data,
+        });
 
-    let str = await res.text();
-    let song: IpfsSong = JSON.parse(str.match(/{.*}/g)?.[0] || "");
-    song.audio = IPFS_FILE_BASE + song.audio;
-    song.image = IPFS_FILE_BASE + song.image;
-    return song;
+        let str = await res.text();
+        let song: IpfsSong = JSON.parse(str.match(/{.*}/g)?.[0] || "");
+        song.audio = IPFS_FILE_BASE + song.audio;
+        song.image = IPFS_FILE_BASE + song.image;
+        return song;
+    } catch (e) {
+        return {};
+    }
 };
 
 export const getSong = async (id: IpfsId) => {
     let song = await getFile(id);
-    console.log(song);
+
     //return res;
     return song;
 };
