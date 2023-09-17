@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Event } from "nostr-tools";
 import { Kind } from "@/lib/nostr";
 import CommentBlock from "./CommentBlock";
+import { shuffle } from "@/lib/recommendations";
 
 export default function Post({
     data,
@@ -45,27 +46,64 @@ export default function Post({
     const randomImgHash = Math.floor(Math.random() * 1000000);
     const { kind } = data;
 
-    const comments = Array.from({ length: 8 }, () => ({
-        name: "John Doe",
-        comment:
-            "This is a great song! I really relate to the message behind it.",
-        timestamp: "12:01pm",
-        profilePic: "/profile_photo.png",
-        replies: [
-            {
-                name: "Jane Doe",
-                comment: "I agree! I love this song so much.",
-                timestamp: "12:02pm",
-                profilePic: "/profile_photo.png",
-            },
-            {
-                name: "Jane Doe",
-                comment: "I agree! I love this song so much.",
-                timestamp: "12:02pm",
-                profilePic: "/profile_photo.png",
-            },
-        ],
-    }));
+    const comments = shuffle([
+        ...Array.from({ length: 2 }, () => ({
+            name: "John Doe",
+            comment:
+                "This is a great song! I really relate to the message behind it.",
+            timestamp: "12:01pm",
+            profilePic: "/profile_photo.png",
+            replies: [
+                {
+                    name: "Jane Doe",
+                    comment: "I agree! I love this song so much.",
+                    timestamp: "12:02pm",
+                    profilePic: "/profile_photo.png",
+                },
+                {
+                    name: "Jane Doe",
+                    comment: "I agree! I love this song so much.",
+                    timestamp: "12:02pm",
+                    profilePic: "/profile_photo.png",
+                },
+            ],
+        })),
+        ...Array.from({ length: 5 }, () => ({
+            name: "John Doe",
+            comment:
+                "This is a great song! I really relate to the message behind it.",
+            timestamp: "12:01pm",
+            profilePic: "/profile_photo.png",
+            replies: [],
+        })),
+        ...Array.from({ length: 2 }, () => ({
+            name: "John Doe",
+            comment:
+                "This is a great song! I really relate to the message behind it.",
+            timestamp: "12:01pm",
+            profilePic: "/profile_photo.png",
+            replies: [
+                {
+                    name: "Jane Doe",
+                    comment: "I agree! I love this song so much.",
+                    timestamp: "12:02pm",
+                    profilePic: "/profile_photo.png",
+                },
+                {
+                    name: "Jane Doe",
+                    comment: "I agree! I love this song so much.",
+                    timestamp: "12:02pm",
+                    profilePic: "/profile_photo.png",
+                },
+                {
+                    name: "Jane Doe",
+                    comment: "I agree! I love this song so much.",
+                    timestamp: "12:02pm",
+                    profilePic: "/profile_photo.png",
+                },
+            ],
+        })),
+    ]);
 
     return (
         <>
@@ -115,7 +153,7 @@ export default function Post({
                         />
                     </div>
                     <div className="px-3 pt-2 font-bold">
-                        {Kind.album == kind ? "Divide" : "HUMBLE."}
+                        {Kind.album == kind ? "Multiply" : "HUMBLE."}
                     </div>
                     <div className="px-3 pb-2 italic leading-none">
                         {Kind.album == kind ? "Ed Sheeran" : "Kendrick Lamar"}
@@ -137,23 +175,96 @@ export default function Post({
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
                 <>
                     <div
-                        className="flex h-[80%] w-[60%] flex-col justify-center gap-8 rounded-lg bg-white px-16 py-8"
+                        className="flex h-[80%] w-[60%] flex-col justify-start gap-8 rounded-lg bg-white p-12"
                         onClick={(e) => {
                             e.stopPropagation();
                         }}
                     >
                         <div className="mb-6 flex justify-start">
-                            <div className="relative aspect-square h-96">
-                                <Image src="/vinyl.png" alt="vinyl" fill />
+                            <div className="relative aspect-square h-96 ">
+                                <Image
+                                    src="/multiply.png"
+                                    alt="vinyl"
+                                    fill
+                                    className="rounded-lg"
+                                />
                             </div>
-                            <div>
-                                <h2 className="text-5xl">Thinking Out Loud</h2>
-                                <div className="font-secondary text-2xl">
-                                    Ed Sheeran
+                            <div className="ml-6 flex items-center">
+                                <div>
+                                    <h2 className="text-5xl">Multiply</h2>
+                                    <div className="font-secondary text-2xl">
+                                        Ed Sheeran
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="ml-36 max-h-96 flex-1 overflow-auto">
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>One</div>
+                                    <div className="text-grey">3:47</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>I'm a Mess</div>
+                                    <div className="text-grey">3:20</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Sing</div>
+                                    <div className="text-grey">3:31</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Don't</div>
+                                    <div className="text-grey">3:09</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Nina</div>
+                                    <div className="text-grey">4:17</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Photograph</div>
+                                    <div className="text-grey">3:01</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Bloodstream</div>
+                                    <div className="text-grey">3:58</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Tenerife Sea</div>
+                                    <div className="text-grey">2:59</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Runaway</div>
+                                    <div className="text-grey">3:23</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>The Man</div>
+                                    <div className="text-grey">3:39</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Thinking out Loud</div>
+                                    <div className="text-grey">3:51</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Afire Love</div>
+                                    <div className="text-grey">3:08</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Take it Back</div>
+                                    <div className="text-grey">3:12</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Shirtsleeves</div>
+                                    <div className="text-grey">3:31</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>Even My Dad Does Sometimes</div>
+                                    <div className="text-grey">3:39</div>
+                                </div>
+                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                    <div>I See Fire</div>
+                                    <div className="text-grey">3:47</div>
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div className="">
                             <h2 className="mb-2 text-2xl">Author's Notes</h2>
                             <p className="font-secondary">
                                 "Well, 'Thinking Out Loud' is a really special
@@ -178,11 +289,16 @@ export default function Post({
                             </p>
                         </div>
                     </div>
-                    <div className="absolute right-4 h-[80%] w-[18%] rounded-lg bg-white">
-                        <h2 className="px-3 py-2 text-2xl font-bold">
+                    <div
+                        className="absolute right-4 h-[80%] w-[18%] rounded-lg bg-white"
+                        onClick={(e) => {
+                            e.stopPropagation();
+                        }}
+                    >
+                        <h2 className="border-b-4 border-b-blue px-3 py-2 text-2xl font-bold">
                             Comments
                         </h2>
-                        <div className="flex max-h-[calc(100%-80px)] flex-col gap-2 overflow-auto">
+                        <div className="flex max-h-[calc(100%-150px)] flex-col gap-2 overflow-auto py-4">
                             {comments.map((commentDetails) => {
                                 return (
                                     <CommentBlock
@@ -190,6 +306,12 @@ export default function Post({
                                     />
                                 );
                             })}
+                        </div>
+                        <div className="flex items-center border-t-4 border-t-blue">
+                            <input className="font-secondary mx-3 my-2 h-12 w-full rounded-md border-4 border-black px-3 py-2" />
+                            <button className="absolute bottom-1 right-3 rounded-sm bg-blue px-2 font-bold text-white">
+                                Send
+                            </button>
                         </div>
                     </div>
                 </>

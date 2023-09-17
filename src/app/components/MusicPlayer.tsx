@@ -93,7 +93,7 @@ export default function MusicPlayer({
     };
 
     return (
-        <div className="group fixed bottom-0 left-[50%] -translate-x-[50%] select-none rounded-t-3xl bg-black px-4 py-2">
+        <div className="group fixed bottom-0 left-[50%] z-[99] -translate-x-[50%] select-none rounded-t-3xl bg-black px-4 py-2">
             <div className="flex items-center justify-center gap-4">
                 <button
                     onClick={handlePreviousTrackButtonClick}

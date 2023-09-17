@@ -1,6 +1,6 @@
 import { Kind } from "./nostr";
 
-function shuffle(array: any[]) {
+export function shuffle(array: any[]) {
     let currentIndex = array.length,
         randomIndex;
 
