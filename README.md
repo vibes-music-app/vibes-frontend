@@ -1,3 +1,8 @@
+# IPFS & NOSTR
+
+We have nodes running ipfs and nostr. You can find the config files in `./ipfs_nosttr_configs`.
+
+# About nextjs
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
