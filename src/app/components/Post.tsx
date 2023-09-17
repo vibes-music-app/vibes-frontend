@@ -35,23 +35,6 @@ export default async function Post({
         }
     }
 
-    // const unpack = async (ipfs_url: string) => {
-    //     const response = await fetch(ipfs_url, {
-    //         method: "GET",
-    //         headers: {
-    //             Accept: "application/json",
-    //         },
-    //     });
-    //     return await response.json();
-    // };
-
-    // // this URL needs to be passed in from the nostr object
-    // //const content = await unpack(data.content)
-    // const content = await unpack(
-    //     "http://bafybeiggesonfbntocaovb4xdimakgkv4dj7any7kfkpqlnf5hn3s3htwq.ipfs.localhost:8080/"
-    // );
-    // console.log("content", data);
-
     const randomImgHash = Math.floor(Math.random() * 1000000);
     const { kind } = data;
 
@@ -75,18 +58,18 @@ export default async function Post({
                     <div className="px-3 pt-2 font-bold">
                         {Kind.album == kind ? "Album" : "Song"}
                     </div>
-                    <div className="px-3 italic leading-none pb-2">
+                    <div className="px-3 pb-2 italic leading-none">
                         {Kind.album == kind ? "Ed Sheeran" : "Kendrick Lamar"}
                     </div>
                     <div className="font-secondary px-3 leading-4">
                         {Kind.album == kind
-                            ? "This song is important to me."
-                            : "I like music!"}
+                            ? "This album is important to me."
+                            : ""}
                     </div>
                 </div>
                 {Kind.album == kind && (
                     <div className="pointer-events-none absolute left-0 top-0 -z-10 w-full transition-transform duration-300 group-hover:translate-x-12 group-hover:rotate-180">
-                        <div className="relative aspect-square w-full ">
+                        <div className="relative aspect-square w-full">
                             <Image src="/vinyl.png" alt="vinyl" fill />
                         </div>
                     </div>

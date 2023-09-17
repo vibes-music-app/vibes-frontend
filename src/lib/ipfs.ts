@@ -1,9 +1,6 @@
-import {
-    genKeys,
-    postEvent
-} from "./nostr";
+import { genKeys, postEvent } from "./nostr";
 
-const IPFS_URL = 'http://10.33.136.17/ipfs_api/api/v0';
+const IPFS_URL = "http://10.33.136.17/ipfs_api/api/v0";
 
 interface IpfsResponse {
     Name: string;
@@ -13,17 +10,18 @@ interface IpfsResponse {
 
 const uploadFile = async (f: File) => {
     let data = new FormData();
-    data.append('files', f, f.name);
+    data.append("files", f, f.name);
 
     const res = await fetch(`${IPFS_URL}/add`, {
-        method: 'POST',
-        body: data
+        method: "POST",
+        body: data,
     });
 
-    return (await res.json() as IpfsResponse).Hash;
+    return ((await res.json()) as IpfsResponse).Hash;
 };
 
-export const uploadSong = async (e: FormEvent) => {
+//form post rqeuest
+export const uploadSong = async (e: any) => {
     e.preventDefault();
 
     let audioElem = document.getElementById("formSong") as HTMLFormElement;
@@ -48,15 +46,15 @@ export const uploadSong = async (e: FormEvent) => {
     };
 
     let data = new FormData();
-    data.append('file', JSON.stringify(ipfsSong));
+    data.append("file", JSON.stringify(ipfsSong));
 
     const res = await fetch(`${IPFS_URL}/add`, {
-        method: 'POST',
+        method: "POST",
         body: data,
     });
 
-    const {sk, pk} = genKeys();
-    let ipfsHash: string = (await res.json() as IpfsResponse).Hash;
+    const { sk, pk } = genKeys();
+    let ipfsHash: string = ((await res.json()) as IpfsResponse).Hash;
 
     return postEvent(ipfsHash, pk, sk);
 };
