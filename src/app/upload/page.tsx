@@ -1,18 +1,9 @@
 "use client";
 
 import { uploadSong } from "../../lib/ipfs";
+import { RELAY_URL, initRelay } from "../../lib/nostr";
 
-export default async function Upload() {
-    // test push song
-    //const resp = await uploadSong({
-    //name: 'test',
-    //audio: '/home/stef/test_file',
-    //image: '/home/stef/test_file',
-    //description: 'this is a test file upload'
-    //});
-    //console.log(resp);
-
-    // TODO text fields
+export default function Upload() {
     return (
         <main className="flex ">
             <form onSubmit={uploadSong}>

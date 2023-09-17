@@ -9,11 +9,12 @@ import {
     postEvent,
     initRelay,
     genKeys,
+    RELAY_URL,
 } from "../lib/nostr";
 
-import { uploadSong } from "../lib/ipfs";
 import { getAllCollectionNames } from "@/lib/collections";
 import { getLatestPosts, getRecommendedPosts } from "@/lib/recommendations";
+import { uploadSong, getSong } from "../lib/ipfs";
 import ClientWrapper from "./components/ClientWrapper";
 
 export default async function Home() {
@@ -23,6 +24,8 @@ export default async function Home() {
     // const recommendedPosts = (await getPosts(relay, "", 5)) as any;
     const recommendedPosts = await getRecommendedPosts();
     const newestPosts = await getLatestPosts();
+
+    //getSong('QmQFMNTqvPUZoPjiL3eedDByPLpyQbLhjwESQtFUaQapMt');
 
     return (
         <main className="flex">

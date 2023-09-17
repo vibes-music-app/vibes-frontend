@@ -13,6 +13,8 @@ import {
     SimplePool,
 } from "nostr-tools";
 
+export const RELAY_URL = 'ws://10.33.143.156:5000/';
+
 import {} from "nostr-tools";
 // --- Key Management ---
 //
@@ -127,7 +129,6 @@ export const initRelay = async (url: string) => {
 
 export const initPool = async (relays: string[]) => {
     const pool = await new SimplePool();
-
     return pool;
 };
 
