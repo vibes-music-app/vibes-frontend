@@ -1,9 +1,12 @@
 import {
     genKeys,
-    postEvent
+    postEvent,
+    initRelay,
+    publishEvent,
 } from "./nostr";
 
 const IPFS_URL = 'http://10.33.136.17/ipfs_api/api/v0';
+const RELAY_URL = 'ws://10.33.143.156:5000/';
 
 interface IpfsResponse {
     Name: string;
@@ -58,5 +61,9 @@ export const uploadSong = async (e: FormEvent) => {
     const {sk, pk} = genKeys();
     let ipfsHash: string = (await res.json() as IpfsResponse).Hash;
 
-    return postEvent(ipfsHash, pk, sk);
+    let event = postEvent(ipfsHash, pk, sk);
+    console.log(event) 
+    let relay = await initRelay(RELAY_URL);
+    console.log(relay) 
+    publishEvent(relay, event);
 };
