@@ -1,7 +1,7 @@
 export function getContent() {
     return [
         {
-            title: "Conversations",
+            title: "Articles",
             description: "Conversations",
             data: [
                 {

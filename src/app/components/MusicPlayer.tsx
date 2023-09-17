@@ -21,7 +21,6 @@ export default function MusicPlayer() {
     useEffect(() => {
         audio.current = new Audio("/thinking_out_loud.mp3");
         audio.current.addEventListener("loadedmetadata", () => {
-            console.log({ duration: audio.current?.duration });
             totalTimeInSeconds.current = audio.current?.duration || 0;
         });
 
@@ -69,11 +68,6 @@ export default function MusicPlayer() {
         const rect = outerProgressBarRef.current.getBoundingClientRect();
 
         const clickPosition = e.screenX - rect.left;
-        console.log({
-            leftOffset: outerProgressBarRef.current.offsetLeft,
-            clickPosition,
-            progressBarWidth,
-        });
         const percentage = clickPosition / progressBarWidth;
         const time = percentage * totalTimeInSeconds.current;
 
@@ -92,9 +86,12 @@ export default function MusicPlayer() {
     };
 
     return (
-        <div className="bg-black fixed bottom-0 left-[50%] -translate-x-[50%] rounded-t-3xl px-4 py-2">
+        <div className="bg-black group fixed bottom-0 left-[50%] -translate-x-[50%] select-none rounded-t-3xl px-4 py-2">
             <div className="flex items-center justify-center gap-4">
-                <button onClick={handlePreviousTrackButtonClick}>
+                <button
+                    onClick={handlePreviousTrackButtonClick}
+                    className="active:scale-90"
+                >
                     <Image
                         src="/previous_track.png"
                         alt="go back a track"
@@ -102,24 +99,20 @@ export default function MusicPlayer() {
                         width={15}
                     />
                 </button>
-                <button onClick={handlePlayButtonClick}>
+                <button
+                    onClick={handlePlayButtonClick}
+                    className="relative h-8 w-8 transition-all active:scale-90 group-hover:h-12 group-hover:w-12"
+                >
                     {isPlaying ? (
-                        <Image
-                            src="/pause_button.png"
-                            alt="pause/play"
-                            height={30}
-                            width={30}
-                        />
+                        <Image src="/pause_button.png" alt="pause/play" fill />
                     ) : (
-                        <Image
-                            src="/play_button.png"
-                            alt="pause/play"
-                            height={30}
-                            width={30}
-                        />
+                        <Image src="/play_button.png" alt="pause/play" fill />
                     )}
                 </button>
-                <button onClick={handleNextTrackButtonClick}>
+                <button
+                    onClick={handleNextTrackButtonClick}
+                    className="active:scale-90"
+                >
                     <Image
                         src="/next_track.png"
                         alt="skip a track"

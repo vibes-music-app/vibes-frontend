@@ -30,7 +30,7 @@ export default async function Home() {
     //publishEvent(relay, newPost)
 
     return (
-        <main className="flex ">
+        <main className="flex">
             <CollectionsPanel />
             <Recommendations />
             <ContentPanel />

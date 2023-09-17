@@ -1,3 +1,33 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: "Gentium Book Basic";
+    font-style: normal;
+    font-weight: normal;
+    font-display: swap;
+    src: url(../../public/GentiumBookPlus-Regular.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Gentium Book Basic";
+    font-style: normal;
+    font-weight: bold;
+    font-display: swap;
+    src: url(../../public/GentiumBookPlus-Bold.ttf) format("truetype");
+}
+
+@font-face {
+    font-family: "Comfortaa";
+    font-style: normal;
+    font-weight: normal;
+    font-display: swap;
+    src: url(../../public/Comfortaa-VariableFont_wght.ttf) format("truetype");
+}
+
+@layer base {
+    html {
+        font-family: "Gentium Book Basic", system-ui, sans-serif;
+    }
+}

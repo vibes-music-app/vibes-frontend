@@ -9,3 +9,8 @@ interface NostrPacket {
     id: number;
     sig: string;
 }
+
+interface Profile {
+    profilePicSrc: string;
+    name: string;
+}

@@ -21,6 +21,25 @@ const config: Config = {
             white: "#FFFFFF",
             black: "#000000",
         },
+        animation: {
+            "expand-popup": "expand-popup 0.2s ease-out",
+        },
+        keyframes: {
+            "expand-popup": {
+                "0%": {
+                    scale: "1",
+                },
+                "70%": {
+                    scale: "1.1",
+                },
+                "100%": {
+                    scale: "1",
+                },
+            },
+        },
+        fontFamily: {
+            secondary: ["Comfortaa", "system-ui", "sans-serif"],
+        },
     },
     plugins: [],
 };

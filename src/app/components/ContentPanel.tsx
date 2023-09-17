@@ -1,6 +1,5 @@
 import { getContent } from "@/lib/content";
 import Image from "next/image";
-import { text } from "stream/consumers";
 
 export default function ContentPanel() {
     const content = getContent();
@@ -25,9 +24,9 @@ export default function ContentPanel() {
                 }
 
                 return (
-                    <div>
+                    <div className="min-w-[275px]">
                         <div
-                            className={`title text-white mb-2 px-3 py-2 text-2xl shadow-[3px_12px_30px_-19px_rgba(0,0,0,0.72)] ${backgroundColour} ${backgroundTranslation}`}
+                            className={`title mb-2 mr-8 rounded-r-full px-3 py-2 text-2xl font-bold text-white  ${backgroundColour} ${backgroundTranslation}`}
                         >
                             <div className={textTranslation}>
                                 {content.title}
@@ -45,7 +44,9 @@ export default function ContentPanel() {
                                             className="aspect-video"
                                         />
                                     </div>
-                                    <div>{data.description}</div>
+                                    <div className="font-secondary">
+                                        {data.description}
+                                    </div>
                                 </div>
                             );
                         })}

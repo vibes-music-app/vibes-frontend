@@ -7,13 +7,13 @@ export default function Mosaic({ posts }: { posts: NostrPacket[] }) {
     return (
         <div className="flex gap-6">
             <div className="flex flex-col gap-6">
-                {oddPosts.map((post) => {
-                    return <Post data={post} />;
+                {oddPosts.map((post, index) => {
+                    return <Post data={post} index={index} />;
                 })}
             </div>
             <div className="flex flex-col gap-6">
-                {evenPosts.map((post) => {
-                    return <Post data={post} offset={true} />;
+                {evenPosts.map((post, index) => {
+                    return <Post data={post} offset={true} index={index} />;
                 })}
             </div>
         </div>

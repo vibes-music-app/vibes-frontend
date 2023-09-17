@@ -6,9 +6,9 @@ export default async function CollectionsPanel() {
     const collectionNames = await getAllCollectionNames();
 
     return (
-        <div className="min-w-[300px]">
-            <div className="bg-black flex gap-3 px-3 py-2 ">
-                <h2 className="text-white text-2xl font-bold">Collections </h2>
+        <div className="min-w-[275px]">
+            <div className="flex gap-3 bg-black px-3 py-2 ">
+                <h2 className="text-2xl font-bold text-white">Collections </h2>
                 <div className="flex items-center justify-center">
                     <Image
                         src="/collections_icon.png"
@@ -20,7 +20,7 @@ export default async function CollectionsPanel() {
             </div>
             {collectionNames.map((collectionName) => {
                 return (
-                    <div className="border-b px-3 py-2">
+                    <div className="font-secondary border-b px-3 py-2">
                         <Link href={`/collections/${collectionName.name}`}>
                             {collectionName.name}
                         </Link>
@@ -29,7 +29,7 @@ export default async function CollectionsPanel() {
             })}
             <div className="flex gap-3 px-3 py-2">
                 {" "}
-                <div>New collection</div>
+                <div className="font-secondary">New collection</div>
                 <div className="flex items-center justify-center">
                     <Image
                         src="/plus_icon.png"
