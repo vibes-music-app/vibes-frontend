@@ -1,8 +1,13 @@
-import { genKeys, postEvent, initRelay,
-    publishEvent, RELAY_URL } from "./nostr";
+import {
+    genKeys,
+    postEvent,
+    initRelay,
+    publishEvent,
+    RELAY_URL,
+} from "./nostr";
 
-const IPFS_URL = 'http://10.33.136.17:5001/api/v0';
-const IPFS_FILE_BASE = 'http://10.33.136.17:8080/ipfs/';
+const IPFS_URL = "http://10.33.136.17:5001/api/v0";
+const IPFS_FILE_BASE = "http://10.33.136.17:8080/ipfs/";
 
 interface IpfsResponse {
     Name: string;
@@ -59,9 +64,10 @@ export const uploadSong = async (e: any) => {
     let ipfsHash: string = ((await res.json()) as IpfsResponse).Hash;
 
     let event = postEvent(ipfsHash, pk, sk);
-    console.log(event) 
+    console.log(event);
     let relay = await initRelay(RELAY_URL);
-    console.log(relay) 
+    console.log(relay);
+    if (!event) return;
     publishEvent(relay, event);
 };
 
@@ -75,11 +81,11 @@ export const getFile = async (id: IpfsId) => {
     });
 
     let str = await res.text();
-    let song: IpfsSong = JSON.parse((str.match(/{.*}/g)?.[0] || ""));
+    let song: IpfsSong = JSON.parse(str.match(/{.*}/g)?.[0] || "");
     song.audio = IPFS_FILE_BASE + song.audio;
     song.image = IPFS_FILE_BASE + song.image;
     return song;
-}
+};
 
 export const getSong = async (id: IpfsId) => {
     let song = await getFile(id);

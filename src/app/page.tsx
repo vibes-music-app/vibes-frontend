@@ -25,7 +25,9 @@ export default async function Home() {
     const recommendedPosts = await getRecommendedPosts();
     const newestPosts = await getLatestPosts();
 
-    //getSong('QmQFMNTqvPUZoPjiL3eedDByPLpyQbLhjwESQtFUaQapMt');
+    console.log(
+        await getSong("QmSbyHfr7r5kazJVbzCdyKDopYrb2dJosBnQFRuE4uvH6B")
+    );
 
     return (
         <main className="flex">
