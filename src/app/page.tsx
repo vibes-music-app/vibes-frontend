@@ -10,6 +10,7 @@ import {
     initRelay,
     genKeys,
     RELAY_URL,
+    Kind,
 } from "../lib/nostr";
 
 import { getAllCollectionNames } from "@/lib/collections";
@@ -31,6 +32,21 @@ export default async function Home() {
     for (let i = 0; i < posts.length; i++) {
         songs.push(await getSong(posts[i].content));
     }
+
+    songs.push({
+        kind: Kind.album,
+        name: "Multiply",
+        artist: "Ed Sheeran",
+        image: "/multiply.png",
+        audio: "/thinking_out_loud.mp3",
+    });
+    songs.push({
+        kind: Kind.album,
+        name: "Hollywood's Bleeding",
+        artist: "Post Malone",
+        image: "/hollywood.webp",
+        audio: "/thinking_out_loud.mp3",
+    });
 
     return (
         <main className="flex">

@@ -114,9 +114,13 @@ export default function Post({
         "Taylor Swift",
         "Maneskin",
         "Lil' Yachty",
-        "Ludwig van Beethoven",
+        "Post Malone",
         "Michael Jackson",
     ];
+
+    function randomArtist() {
+        return artists[Math.floor(Math.random() * artists.length)];
+    }
 
     return (
         <>
@@ -127,7 +131,7 @@ export default function Post({
                 <div
                     className={`${border} relative h-full w-full overflow-hidden rounded-md border-2 bg-white pb-2`}
                 >
-                    {true && (
+                    {Kind.album !== kind && (
                         <div
                             onClick={(e) => {
                                 e.stopPropagation();
@@ -166,7 +170,7 @@ export default function Post({
                     </div>
                     <div className="px-3 pt-2 font-bold">{data.name}</div>
                     <div className="px-3 pb-2 italic leading-none">
-                        {artists[index % artists.length]}
+                        {data.artist || randomArtist()}
                     </div>
                     <div className="font-secondary px-3 leading-4">
                         {Kind.album == kind
@@ -192,87 +196,160 @@ export default function Post({
                     >
                         <div className="mb-6 flex justify-start">
                             <div className="relative aspect-square h-96 ">
-                                <Image
-                                    src="/multiply.png"
+                                <img
+                                    src={data.image}
                                     alt="vinyl"
-                                    fill
                                     className="rounded-lg"
                                 />
                             </div>
                             <div className="ml-6 flex items-center">
                                 <div>
-                                    <h2 className="text-5xl">{data.name}</h2>
+                                    <h2 className="text-5xl max-w-[250px]">{data.name}</h2>
                                     <div className="font-secondary text-2xl">
-                                        Ed Sheeran
+                                        {data.artist}
                                     </div>
                                 </div>
                             </div>
-                            <div className="ml-36 max-h-96 flex-1 overflow-auto">
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>One</div>
-                                    <div className="text-grey">3:47</div>
+                            {data.artist === "Ed Sheeran" && (
+                                <div className="ml-36 max-h-96 flex-1 overflow-auto">
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>One</div>
+                                        <div className="text-grey">3:47</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>I'm a Mess</div>
+                                        <div className="text-grey">3:20</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Sing</div>
+                                        <div className="text-grey">3:31</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Don't</div>
+                                        <div className="text-grey">3:09</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Nina</div>
+                                        <div className="text-grey">4:17</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Photograph</div>
+                                        <div className="text-grey">3:01</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Bloodstream</div>
+                                        <div className="text-grey">3:58</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Tenerife Sea</div>
+                                        <div className="text-grey">2:59</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Runaway</div>
+                                        <div className="text-grey">3:23</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>The Man</div>
+                                        <div className="text-grey">3:39</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Thinking out Loud</div>
+                                        <div className="text-grey">3:51</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Afire Love</div>
+                                        <div className="text-grey">3:08</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Take it Back</div>
+                                        <div className="text-grey">3:12</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Shirtsleeves</div>
+                                        <div className="text-grey">3:31</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Even My Dad Does Sometimes</div>
+                                        <div className="text-grey">3:39</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>I See Fire</div>
+                                        <div className="text-grey">3:47</div>
+                                    </div>
                                 </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>I'm a Mess</div>
-                                    <div className="text-grey">3:20</div>
+                            )}
+                            {data.artist === "Post Malone" && (
+                                <div className="ml-36 max-h-96 flex-1 overflow-auto">
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Hollywood's Bleeding</div>
+                                        <div className="text-grey">3:47</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Saint-Tropez</div>
+                                        <div className="text-grey">3:20</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Enemies</div>
+                                        <div className="text-grey">3:31</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Allergic</div>
+                                        <div className="text-grey">3:09</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>A Thousand Bad Times</div>
+                                        <div className="text-grey">4:17</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Circles</div>
+                                        <div className="text-grey">3:01</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Die for me (feat. Future & Halsley)</div>
+                                        <div className="text-grey">3:58</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>One The Road (feat. Meek Mill & Lil Baby)</div>
+                                        <div className="text-grey">2:59</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Take What You want (feat. Ozzy Osbourne)</div>
+                                        <div className="text-grey">3:23</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>I'm Gonna Be</div>
+                                        <div className="text-grey">3:39</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Staring At The Sun (feat. SZA)</div>
+                                        <div className="text-grey">3:51</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Sunflower - Spider-Man: Into the Spiderverse</div>
+                                        <div className="text-grey">3:08</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Internet</div>
+                                        <div className="text-grey">3:12</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Goodbyes (feat. Young Thug)</div>
+                                        <div className="text-grey">3:31</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Myself</div>
+                                        <div className="text-grey">3:39</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>I Know</div>
+                                        <div className="text-grey">3:47</div>
+                                    </div>
+                                    <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
+                                        <div>Wow.</div>
+                                        <div className="text-grey">3:47</div>
+                                    </div>
                                 </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Sing</div>
-                                    <div className="text-grey">3:31</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Don't</div>
-                                    <div className="text-grey">3:09</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Nina</div>
-                                    <div className="text-grey">4:17</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Photograph</div>
-                                    <div className="text-grey">3:01</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Bloodstream</div>
-                                    <div className="text-grey">3:58</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Tenerife Sea</div>
-                                    <div className="text-grey">2:59</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Runaway</div>
-                                    <div className="text-grey">3:23</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>The Man</div>
-                                    <div className="text-grey">3:39</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Thinking out Loud</div>
-                                    <div className="text-grey">3:51</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Afire Love</div>
-                                    <div className="text-grey">3:08</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Take it Back</div>
-                                    <div className="text-grey">3:12</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Shirtsleeves</div>
-                                    <div className="text-grey">3:31</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>Even My Dad Does Sometimes</div>
-                                    <div className="text-grey">3:39</div>
-                                </div>
-                                <div className="mt-2 flex w-full justify-between border-b-2 border-b-black text-lg font-bold">
-                                    <div>I See Fire</div>
-                                    <div className="text-grey">3:47</div>
-                                </div>
-                            </div>
+                            )}
                         </div>
                         <div className="">
                             <h2 className="mb-2 text-2xl">Author's Notes</h2>
