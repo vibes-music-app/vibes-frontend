@@ -10,8 +10,10 @@ import {
     UnsignedEvent,
     relayInit,
     Relay,
+    SimplePool,
 } from "nostr-tools";
 
+import {} from "nostr-tools";
 // --- Key Management ---
 //
 export const genKeys = () => {
@@ -55,12 +57,20 @@ const genericEvent = (
     }
 };
 
+export enum Kind {
+    "post" = 1,
+    "album" = 2,
+    "like" = 3,
+    "comment" = 4,
+    "follow" = 5,
+}
+
 export const postEvent = (
     ipfs_link: string,
     public_key: string,
     private_key: string
 ) => {
-    return genericEvent(1, ipfs_link, public_key, private_key, []);
+    return genericEvent(Kind.post, ipfs_link, public_key, private_key, []);
 };
 
 export const collectionEvent = (
@@ -68,7 +78,7 @@ export const collectionEvent = (
     public_key: string,
     private_key: string
 ) => {
-    return genericEvent(2, ipfs_link, public_key, private_key, []);
+    return genericEvent(Kind.album, ipfs_link, public_key, private_key, []);
 };
 
 export const likeEvent = (
@@ -76,7 +86,9 @@ export const likeEvent = (
     public_key: string,
     private_key: string
 ) => {
-    return genericEvent(3, "", public_key, private_key, [["post", post_id]]);
+    return genericEvent(Kind.like, "", public_key, private_key, [
+        ["post", post_id],
+    ]);
 };
 
 export const commentEvent = (
@@ -86,16 +98,10 @@ export const commentEvent = (
     private_key: string,
     replying_to = ""
 ) => {
-    if (replying_to) {
-        return genericEvent(4, comment, public_key, private_key, [
-            ["post", post_id],
-            ["replying_to", replying_to],
-        ]);
-    } else {
-        return genericEvent(4, comment, public_key, private_key, [
-            ["post", post_id],
-        ]);
-    }
+    return genericEvent(Kind.comment, comment, public_key, private_key, [
+        ["post", post_id],
+        ["replying_to", replying_to],
+    ]);
 };
 
 // --- Relay / Event Management ---
@@ -117,7 +123,24 @@ export const initRelay = async (url: string) => {
     return relay;
 };
 
-const getEvents = async (relay: Relay, filters: [any]) => {
+//--- Relay Pools ---
+
+export const initPool = async (relays: string[]) => {
+    const pool = await new SimplePool();
+
+    return pool;
+};
+
+export const getPoolEvents = async (
+    pool: SimplePool,
+    relays: string[],
+    filters: any[]
+) => {
+    const events = await pool.list(relays, filters);
+    return events;
+};
+
+const getEvents = async (relay: Relay, filters: any[]) => {
     const events = await relay.list(filters);
     return events;
 };
@@ -128,6 +151,7 @@ interface PostsFilter {
     limit?: number;
     since?: number;
 }
+
 // Get posts, optionally from a specific author
 export const getPosts = async (
     relay: Relay,
@@ -174,7 +198,6 @@ export const latestPosts = async (relay: Relay, latest = 10) => {
             break;
         }
 
-        console.log("have ", found, "posts, need", latest);
         posts = await getPosts(relay, "", latest, default_delta);
         default_delta *= 10; // Multiply by 10 each iteration
         found = posts.length;

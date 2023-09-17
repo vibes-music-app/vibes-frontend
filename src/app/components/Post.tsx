@@ -1,15 +1,16 @@
 "use client";
-
 import { useState } from "react";
 import Modal from "./Modal";
 import Image from "next/image";
+import { Event } from "nostr-tools";
+import { Kind } from "@/lib/nostr";
 
-export default function Post({
+export default async function Post({
     data,
     offset,
     index,
 }: {
-    data: NostrPacket;
+    data: NostrPacket | Event;
     offset?: boolean;
     index: number;
 }) {
@@ -34,23 +35,62 @@ export default function Post({
         }
     }
 
-    const randomHeight = Math.floor(Math.random() * 100) + 250;
+    // const unpack = async (ipfs_url: string) => {
+    //     const response = await fetch(ipfs_url, {
+    //         method: "GET",
+    //         headers: {
+    //             Accept: "application/json",
+    //         },
+    //     });
+    //     return await response.json();
+    // };
+
+    // // this URL needs to be passed in from the nostr object
+    // //const content = await unpack(data.content)
+    // const content = await unpack(
+    //     "http://bafybeiggesonfbntocaovb4xdimakgkv4dj7any7kfkpqlnf5hn3s3htwq.ipfs.localhost:8080/"
+    // );
+    // console.log("content", data);
+
+    const randomImgHash = Math.floor(Math.random() * 1000000);
+    const { kind } = data;
 
     return (
         <>
             <div
                 className={`group relative z-10 w-44 cursor-pointer rounded-md bg-white transition-transform duration-100 hover:z-50 hover:scale-105`}
-                style={{ height: randomHeight + "px" }}
                 onClick={() => setIsOpen(true)}
             >
                 <div
-                    className={`${border} h-full w-full rounded-md border-2 bg-white`}
-                ></div>
-                <div className="pointer-events-none absolute left-0 top-0 -z-10 w-full transition-transform duration-300 group-hover:translate-x-20 group-hover:rotate-45">
-                    <div className="relative aspect-square w-full ">
-                        <Image src="/vinyl.png" alt="vinyl" fill />
+                    className={`${border} h-full w-full rounded-md border-2 bg-white pb-2`}
+                >
+                    <div className="relative aspect-square w-full">
+                        <Image
+                            src={`https://source.unsplash.com/random/?album_cover&id=${randomImgHash}`}
+                            alt="vinyl"
+                            layout="fill"
+                            objectFit="cover"
+                        />
+                    </div>
+                    <div className="px-3 pt-2 font-bold">
+                        {Kind.album == kind ? "Album" : "Song"}
+                    </div>
+                    <div className="px-3 italic leading-none pb-2">
+                        {Kind.album == kind ? "Ed Sheeran" : "Kendrick Lamar"}
+                    </div>
+                    <div className="font-secondary px-3 leading-4">
+                        {Kind.album == kind
+                            ? "This song is important to me."
+                            : "I like music!"}
                     </div>
                 </div>
+                {Kind.album == kind && (
+                    <div className="pointer-events-none absolute left-0 top-0 -z-10 w-full transition-transform duration-300 group-hover:translate-x-12 group-hover:rotate-180">
+                        <div className="relative aspect-square w-full ">
+                            <Image src="/vinyl.png" alt="vinyl" fill />
+                        </div>
+                    </div>
+                )}
             </div>
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
                 <>

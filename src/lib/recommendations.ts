@@ -1,6 +1,8 @@
+import { Kind } from "./nostr";
+
 export const getLatestPosts: () => Promise<NostrPacket[]> = async () => {
     return Array.from({ length: 20 }, () => ({
-        kind: "song",
+        kind: Kind.post,
         pubKey: "pubKey",
         timestamp: 123,
         content: "ipfs_key",
@@ -12,7 +14,7 @@ export const getLatestPosts: () => Promise<NostrPacket[]> = async () => {
 
 export const getRecommendedPosts: () => Promise<NostrPacket[]> = async () => {
     return Array.from({ length: 20 }, () => ({
-        kind: "song",
+        kind: Kind.album,
         pubKey: "pubKey",
         timestamp: 123,
         content: "ipfs_key",
