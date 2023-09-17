@@ -1,11 +1,12 @@
 "use client";
-import { getAllCollectionNames } from "@/lib/collections";
 import Image from "next/image";
 import Link from "next/link";
 
-export default async function CollectionsPanel() {
-    const collectionNames = await getAllCollectionNames();
-
+export default function CollectionsPanel({
+    collectionNames,
+}: {
+    collectionNames: { name: string }[];
+}) {
     return (
         <div className="min-w-[275px]">
             <div className="flex gap-3 bg-black px-3 py-2 ">

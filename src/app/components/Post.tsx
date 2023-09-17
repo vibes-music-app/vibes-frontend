@@ -45,9 +45,9 @@ export default function Post({
                 onClick={() => setIsOpen(true)}
             >
                 <div
-                    className={`${border} h-full w-full rounded-md border-2 bg-white pb-2`}
+                    className={`${border} h-full w-full overflow-hidden rounded-md border-2 bg-white pb-2`}
                 >
-                    <div className="relative aspect-square w-full">
+                    <div className="relative aspect-square w-full overflow-hidden">
                         <Image
                             src={`https://source.unsplash.com/random/?album_cover&id=${randomImgHash}`}
                             alt="vinyl"
@@ -78,11 +78,47 @@ export default function Post({
             <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
                 <>
                     <div
-                        className="h-[80%] w-[60%] rounded-lg bg-white"
+                        className="flex h-[80%] w-[60%] flex-col justify-center gap-8 rounded-lg bg-white px-16 py-8"
                         onClick={(e) => {
                             e.stopPropagation();
                         }}
-                    ></div>
+                    >
+                        <div className="mb-6 flex justify-start">
+                            <div className="relative aspect-square h-96">
+                                <Image src="/vinyl.png" alt="vinyl" fill />
+                            </div>
+                            <div>
+                                <h2 className="text-5xl">Thinking Out Loud</h2>
+                                <div className="font-secondary text-2xl">
+                                    Ed Sheeran
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h2 className="mb-2 text-2xl">Author's Notes</h2>
+                            <p className="font-secondary">
+                                "Well, 'Thinking Out Loud' is a really special
+                                song to me. When I was writing it, I wanted to
+                                capture that timeless, everlasting kind of love.
+                                You know, the kind of love that just gets
+                                stronger with age. I was inspired by my own
+                                experiences and feelings, and I wanted to create
+                                a song that people could connect with on a deep
+                                level.
+                            </p>
+                            <br />
+                            <p className="font-secondary">
+                                The melody came to me pretty naturally, and I
+                                remember sitting down with my guitar and just
+                                strumming those chords. The lyrics flowed from
+                                there, and I tried to be as honest and heartfelt
+                                as possible. I think that's why the song
+                                resonates with so many people. Love is a
+                                universal emotion, and I wanted to express it in
+                                a way that felt genuine.
+                            </p>
+                        </div>
+                    </div>
                     <div className="absolute right-4 h-[80%] w-[18%] rounded-lg bg-white">
                         <h2 className="px-3 py-2 text-2xl font-bold">
                             Comments

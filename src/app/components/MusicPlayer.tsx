@@ -122,7 +122,7 @@ export default function MusicPlayer() {
                 </button>
             </div>
             <div className="text-white flex items-center justify-center gap-6">
-                <div className="min-w-[55px] text-end">
+                <div className="min-w-[55px] text-end font-secondary">
                     {timeToString(currentTimeInSeconds)}
                 </div>
                 <div
@@ -136,7 +136,7 @@ export default function MusicPlayer() {
                         ref={progressBarRef}
                     ></div>
                 </div>
-                <div className="min-w-[55px]">
+                <div className="min-w-[55px] font-secondary">
                     {timeToString(totalTimeInSeconds.current)}
                 </div>
             </div>

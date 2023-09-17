@@ -1,16 +1,13 @@
 "use client";
-import { getLatestPosts, getRecommendedPosts } from "@/lib/recommendations";
 import Masonry from "./Masonry";
 
-import { initRelay, latestPosts, getPosts } from "@/lib/nostr";
-
-export default async function Recommendations() {
-    // const relay = await initRelay("ws://10.33.141.120/relay/");
-    // const newestPosts = await latestPosts(relay, 5);
-    // const recommendedPosts = (await getPosts(relay, "", 5)) as any;
-    const recommendedPosts = await getRecommendedPosts();
-    const newestPosts = await getLatestPosts();
-
+export default function Recommendations({
+    recommendedPosts,
+    newestPosts,
+}: {
+    recommendedPosts: NostrPacket[];
+    newestPosts: NostrPacket[];
+}) {
     return (
         <div className="relative flex-1">
             <div className="absolute left-0 top-0 -z-10 h-full w-full border-8 border-b-0 border-red"></div>
