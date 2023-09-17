@@ -199,12 +199,12 @@ export default function Post({
                                 <img
                                     src={data.image}
                                     alt="vinyl"
-                                    className="rounded-lg"
+                                    className="rounded-lg w-full h-full"
                                 />
                             </div>
                             <div className="ml-6 flex items-center">
                                 <div>
-                                    <h2 className="text-5xl max-w-[250px]">{data.name}</h2>
+                                    <h2 className="text-5xl max-w-[225px]">{data.name}</h2>
                                     <div className="font-secondary text-2xl">
                                         {data.artist}
                                     </div>
