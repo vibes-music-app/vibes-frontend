@@ -44,9 +44,7 @@ export default function ContentPanel() {
                                             className="aspect-video"
                                         />
                                     </div>
-                                    <div className="font-secondary">
-                                        {data.description}
-                                    </div>
+                                    <div className="font-bold">{data.name}</div>
                                 </div>
                             );
                         })}

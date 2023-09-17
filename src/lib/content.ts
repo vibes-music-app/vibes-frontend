@@ -5,12 +5,12 @@ export function getContent() {
             description: "Conversations",
             data: [
                 {
-                    name: "Conversation 1",
+                    name: "This is how you make music.",
                     description: "Conversation 1",
                     imgSrc: "https://source.unsplash.com/random/?conversation",
                 },
                 {
-                    name: "Conversation 2",
+                    name: "Music is fun!",
                     description: "Conversation 2",
                     imgSrc: "https://source.unsplash.com/random/?conversation",
                 },
@@ -21,12 +21,12 @@ export function getContent() {
             description: "Pics",
             data: [
                 {
-                    name: "Pic 1",
+                    name: "Interesting picture",
                     description: "Pic 1",
                     imgSrc: "https://source.unsplash.com/random/?pic",
                 },
                 {
-                    name: "Pic 2",
+                    name: "Uninteresting picture",
                     description: "Pic 2",
                     imgSrc: "https://source.unsplash.com/random/?pic",
                 },
@@ -37,12 +37,12 @@ export function getContent() {
             description: "Videos",
             data: [
                 {
-                    name: "Video 1",
+                    name: "Funky video about music",
                     description: "Video 1",
                     imgSrc: "https://source.unsplash.com/random/?video",
                 },
                 {
-                    name: "Video 2",
+                    name: "Music video",
                     description: "Video 2",
                     imgSrc: "https://source.unsplash.com/random/?video",
                 },
