@@ -35,7 +35,7 @@ export const uploadSong = async (e: any) => {
     let audioFile: File = audioElem.files[0] || null;
     let audio: IpfsId = await uploadFile(audioFile);
 
-    let picElem = document.getElementById("formSong") as HTMLFormElement;
+    let picElem = document.getElementById("formPic") as HTMLFormElement;
     let picFile: File = picElem.files[0] || null;
     let pic: IpfsId = await uploadFile(picFile);
 

@@ -154,7 +154,7 @@ interface PostsFilter {
 }
 
 // Get posts, optionally from a specific author
-export const getPosts = async (
+const _getPosts = async (
     relay: Relay,
     author = "",
     limit = 0,
@@ -179,6 +179,11 @@ export const getPosts = async (
     const posts = await getEvents(relay, [filter]);
     return posts;
 };
+
+const getPosts = async () => {
+    let relay = await initRelay(RELAY_URL);
+    return _getPosts(relay);
+}
 
 export const getCollections = async (relay: Relay) => {
     const posts = await getEvents(relay, [{ kinds: [2] }]);
